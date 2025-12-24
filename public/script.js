@@ -235,14 +235,21 @@ function renderProducts(products) {
 // Logic for Product Details Page
 async function loadProductDetails() {
     const params = new URLSearchParams(window.location.search);
-    const id = parseInt(params.get('id'));
-    if (!id) return;
+    
+    // ✅ FIX: Rename 'id' to 'productId' so it matches the fetch call below
+    const productId = parseInt(params.get('id')); 
+    
+    // Update the check to use the new name
+    if (!productId) return; 
 
     try {
-      // ✅ GOOD
-const response = await fetch(`/api/products/${productId}`);
+        // ✅ Now this works because 'productId' is defined above
+        const response = await fetch(`/api/products/${productId}`);
+        
         if (!response.ok) throw new Error('Failed to fetch');
         const product = await response.json();
+
+        // ... rest of your code ...
 
         // Default to Lowest Spec
         const currentSelection = {
