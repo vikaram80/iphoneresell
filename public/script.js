@@ -239,7 +239,8 @@ async function loadProductDetails() {
     if (!id) return;
 
     try {
-        const response = await fetch(`http://localhost:3000/api/products/${id}`);
+      // ✅ GOOD
+const response = await fetch(`/api/products/${productId}`);
         if (!response.ok) throw new Error('Failed to fetch');
         const product = await response.json();
 
