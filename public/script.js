@@ -62,7 +62,8 @@ function updateDetailsPrice(btn, basePrice, type, value) {
         // Update Price Text
         const priceEl = document.getElementById('dynamic-price-display');
         if (priceEl) {
-            const originalPrice = product.originalPrice ? `<span style="text-decoration: line-through; color: #888; font-size: 20px; margin-right: 10px;">₹${(product.originalPrice * 0.4).toLocaleString('en-IN')}</span>` : '';
+            // ✅ FIX: Removed (* 0.4) so it shows the real original price
+            const originalPrice = product.originalPrice ? `<span style="text-decoration: line-through; color: #888; font-size: 20px; margin-right: 10px;">₹${product.originalPrice.toLocaleString('en-IN')}</span>` : '';
             priceEl.innerHTML = `${originalPrice}₹${newPrice.toLocaleString('en-IN')}`;
         }
     }
@@ -189,8 +190,6 @@ function renderProducts(products) {
             minPrice = calculatePrice(p.price, p, minStorage, minRam);
         }
 
-        let priceDisplay = `From ₹${minPrice.toLocaleString('en-IN')}`;
-
         // Discount Calc (using original vs min price for display impact?)
         // Let's keep original badge logic but maybe adjust base? 
         // For simplicity, badge relies on p.price vs p.originalPrice (High spec comparison)
@@ -207,12 +206,14 @@ function renderProducts(products) {
                     </div>
                 </div>
             `;
-            // Show range or just "From"
+            // ✅ FIX: Removed (* 0.4) so it shows the real original price
             priceDisplay = `
                 <span style="font-size: 14px; color: #666; font-weight: 400;">From</span>
                 <span style="color: #d32f2f; font-weight: 700; font-size: 1.2em;">₹${minPrice.toLocaleString('en-IN')}</span>
-                <span style="text-decoration: line-through; color: #aaa; font-size: 0.8em; margin-left: 5px;">₹${(p.originalPrice * 0.4).toLocaleString('en-IN')}</span>
+                <span style="text-decoration: line-through; color: #aaa; font-size: 0.8em; margin-left: 5px;">₹${p.originalPrice.toLocaleString('en-IN')}</span>
             `;
+        } else {
+             priceDisplay = `From ₹${minPrice.toLocaleString('en-IN')}`;
         }
 
         return `
@@ -236,20 +237,16 @@ function renderProducts(products) {
 async function loadProductDetails() {
     const params = new URLSearchParams(window.location.search);
     
-    // ✅ FIX: Rename 'id' to 'productId' so it matches the fetch call below
+    // ✅ Fix: Ensure variable name matches the fetch call
     const productId = parseInt(params.get('id')); 
     
-    // Update the check to use the new name
     if (!productId) return; 
 
     try {
-        // ✅ Now this works because 'productId' is defined above
         const response = await fetch(`/api/products/${productId}`);
         
         if (!response.ok) throw new Error('Failed to fetch');
         const product = await response.json();
-
-        // ... rest of your code ...
 
         // Default to Lowest Spec
         const currentSelection = {
@@ -297,19 +294,17 @@ async function loadProductDetails() {
 
                     <h1 style="font-size: 40px; margin-bottom: 10px;">${product.name}</h1>
                     <div class="detail-price" id="dynamic-price-display" style="font-size: 28px; font-weight: 500; margin-bottom: 20px;">
-                         ${product.originalPrice ? `<span style="text-decoration: line-through; color: #888; font-size: 20px; margin-right: 10px;">₹${(product.originalPrice * 0.4).toLocaleString('en-IN')}</span>` : ''}
+                         ${product.originalPrice ? `<span style="text-decoration: line-through; color: #888; font-size: 20px; margin-right: 10px;">₹${product.originalPrice.toLocaleString('en-IN')}</span>` : ''}
                         ₹${currentPrice.toLocaleString('en-IN')}
                     </div>
-                    
+                     
                     <p class="description" style="font-size: 17px; line-height: 1.5; color: #515154; margin-bottom: 30px;">${product.description}</p>
 
-                    <!-- Variants Section -->
                     <div id="product-variants">
                         ${variantsHtml}
                     </div>
                     <div id="product-data" style="display:none;" data-base-price="${product.price}" data-product='${JSON.stringify(product).replace(/'/g, "&#39;")}'></div>
 
-                    <!-- Quality Verification Section -->
                     <div style="background: #fbfbfd; border: 1px solid #d2d2d7; border-radius: 16px; padding: 24px; margin-bottom: 30px;">
                         <h3 style="margin-bottom: 15px; font-size: 14px; text-transform: uppercase; color: #86868b; letter-spacing: 0.5px;">Quality Verification</h3>
                         <ul style="list-style: none; padding: 0;">
