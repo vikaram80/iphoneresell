@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Bag | Apple Store</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">
+                <i class="fab fa-apple"></i> Store
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="orders.html">My Orders</a>
+                <a href="tracking.html">Track Order</a>
+                <a href="cart.html" class="cart-icon active">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span id="cart-count">0</span>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <main style="padding-top: 100px; min-height: 80vh;">
+        <h1 class="section-title" style="margin: 40px 0;">Your Bag</h1>
+
+        <div style="max-width: 900px; margin: 0 auto; padding: 0 20px;">
+            <div id="cart-items">
+                <!-- Cart items will be here -->
+            </div>
+
+            <div style="margin-top: 40px; border-top: 1px solid #d2d2d7; padding-top: 40px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+                    <div style="font-size: 20px;">Total</div>
+                    <div style="font-size: 32px; font-weight: 600;">₹<span id="cart-total">0</span></div>
+                </div>
+
+                <div style="text-align: right;">
+                    <button id="checkout-btn" class="btn-primary"
+                        style="width: 100%; max-width: 350px; padding: 18px; font-size: 18px;"
+                        onclick="window.location.href='payment.html?total=' + document.getElementById('cart-total').textContent">Check
+                        Out</button>
+                    <div style="margin-top: 20px; text-align: center; color: #666; font-size: 14px;">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div style="max-width: 980px; margin: 0 auto;">
+            <p style="margin-bottom: 10px;">Free delivery and free returns.</p>
+
+
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

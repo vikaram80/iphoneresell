@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders | Apply Store</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">
+                <i class="fab fa-apple"></i> Store
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="orders.html" class="active">My Orders</a>
+                <a href="tracking.html">Track Order</a>
+                <a href="cart.html" class="cart-icon">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span id="cart-count">0</span>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <main style="padding-top: 100px; min-height: 80vh;">
+        <div class="container" style="max-width: 800px; margin: 0 auto; padding: 20px;">
+            <h1 class="section-title">My Orders</h1>
+
+            <div id="orders-list">
+                <!-- Orders injected here -->
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const orders = JSON.parse(localStorage.getItem('myOrders')) || [];
+            const container = document.getElementById('orders-list');
+
+            if (orders.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align: center; padding: 60px; background: white; border-radius: 20px;">
+                        <i class="fas fa-box-open" style="font-size: 60px; color: #ccc; margin-bottom: 20px;"></i>
+                        <h3 style="color: #666; margin-bottom: 20px;">No orders yet</h3>
+                        <button class="btn-primary" onclick="window.location.href='index.html'">Start Shopping</button>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = orders.reverse().map(order => `
+                <div style="background: white; border-radius: 20px; box-shadow: var(--shadow-sm); padding: 25px; margin-bottom: 20px; transition: transform 0.2s;">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
+                        <div>
+                            <div style="font-size: 14px; color: #666; margin-bottom: 4px;">ORDER PLACED</div>
+                            <div style="font-weight: 500;">${new Date(order.date).toLocaleDateString()}</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 14px; color: #666; margin-bottom: 4px;">TOTAL</div>
+                            <div style="font-weight: 500;">₹${order.total.toLocaleString('en-IN')}</div>
+                        </div>
+                         <div>
+                            <div style="font-size: 14px; color: #666; margin-bottom: 4px;">ORDER # ${order.id}</div>
+                            <a href="tracking.html" style="color: #0071e3; text-decoration: none; font-size: 14px;">Track Order</a>
+                        </div>
+                    </div>
+                    
+                    <hr style="border: 0; border-top: 1px solid #eee; margin: 15px 0;">
+
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                         <div style="display: flex; gap: 15px;">
+                            ${order.items.map(img => `<img src="${img}" style="width: 50px; height: 50px; object-fit: contain;">`).slice(0, 3).join('')}
+                         </div>
+                         <button class="btn-primary" style="padding: 8px 20px; font-size: 14px; background: #ff3b30; color: white; border: none; margin-left: 10px;" onclick="deleteUserOrder('${order.id}')">Delete</button>
+                         <button class="btn-primary" style="padding: 8px 20px; font-size: 14px;" onclick="copyOrderId('${order.id}')">Copy ID</button>
+                    </div>
+                </div>
+            `).join('');
+        });
+
+        function copyOrderId(id) {
+            navigator.clipboard.writeText(id).then(() => alert('Order ID copied: ' + id));
+        }
+
+        async function deleteUserOrder(orderId) {
+            if (!confirm('Are you sure you want to delete this order?')) return;
+
+            try {
+                // 1. Delete from Server
+                const response = await fetch(`http://localhost:3000/api/orders/${orderId}`, {
+                    method: 'DELETE'
+                });
+
+                if (response.ok || response.status === 404) {
+                    // 2. Delete from LocalStorage (Success or Already Gone)
+                    let myOrders = JSON.parse(localStorage.getItem('myOrders')) || [];
+                    myOrders = myOrders.filter(o => o.id !== orderId);
+                    localStorage.setItem('myOrders', JSON.stringify(myOrders));
+
+                    alert('Order deleted successfully.');
+                    window.location.reload();
+                } else {
+                    alert('Failed to delete order from server.');
+                }
+            } catch (error) {
+                console.error(error);
+                // Fallback: If server unreachable, still delete local? Better to warn.
+                // Assuming sync is desired, we delete local if server delete fails 404 (already gone) or succeed.
+                let myOrders = JSON.parse(localStorage.getItem('myOrders')) || [];
+                myOrders = myOrders.filter(o => o.id !== orderId);
+                localStorage.setItem('myOrders', JSON.stringify(myOrders));
+                window.location.reload();
+            }
+        }
+    </script>
+</body>
+
+</html>

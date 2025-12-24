@@ -1,0 +1,437 @@
+[
+    {
+        "id": 101,
+        "name": "iPhone 17 Pro Max",
+        "price": 79999,
+        "originalPrice": 159999,
+        "image": "https://www.apple.com/in/iphone/home/images/overview/select/iphone_17pro__0s6piftg70ym_large.jpg",
+        "description": "50% OFF! A19 Pro Chip. Cosmic Orange, Silver, Deep Blue. The ultimate iPhone.",
+        "variants": {
+            "colors": [
+                "Cosmic Orange",
+                "Silver",
+                "Deep Blue",
+                "Black Titanium"
+            ],
+            "storage": [
+                "256GB",
+                "512GB",
+                "1TB"
+            ],
+            "ram": [
+                "12GB"
+            ]
+        }
+    },
+    {
+        "id": 102,
+        "name": "iPhone 17 Pro",
+        "price": 74999,
+        "originalPrice": 149999,
+        "image": "https://www.apple.com/in/iphone/home/images/overview/select/iphone_17pro__0s6piftg70ym_large.jpg",
+        "description": "HALF PRICE! A19 Pro. The most powerful iPhone in a compact size.",
+        "variants": {
+            "colors": [
+                "Cosmic Orange",
+                "Silver",
+                "Deep Blue",
+                "Black Titanium"
+            ],
+            "storage": [
+                "128GB",
+                "256GB",
+                "512GB",
+                "1TB"
+            ],
+            "ram": [
+                "8GB"
+            ]
+        }
+    },
+    {
+        "id": 103,
+        "name": "iPhone 17",
+        "price": 44999,
+        "originalPrice": 89999,
+        "image": "https://www.apple.com/in/iphone/home/images/overview/select/iphone_17__ck7zzemcw37m_large.jpg",
+        "description": "50% OFF! Lavender, Sage, Mist Blue. Even more delightful.",
+        "variants": {
+            "colors": [
+                "Lavender",
+                "Sage",
+                "Mist Blue",
+                "Black",
+                "White"
+            ],
+            "storage": [
+                "128GB",
+                "256GB",
+                "512GB"
+            ],
+            "ram": [
+                "8GB"
+            ]
+        }
+    },
+    {
+        "id": 104,
+        "name": "iPhone Air",
+        "price": 49999,
+        "originalPrice": 99999,
+        "image": "https://www.apple.com/v/iphone/home/cg/images/overview/select/iphone_air__f0t56fef3oey_large.jpg",
+        "description": "HALF PRICE! Thinnest iPhone ever. Sky Blue, Light Gold.",
+        "variants": {
+            "colors": [
+                "Sky Blue",
+                "Light Gold",
+                "Silver"
+            ],
+            "storage": [
+                "128GB",
+                "256GB"
+            ],
+            "ram": [
+                "8GB"
+            ]
+        }
+    },
+    {
+        "id": 105,
+        "name": "iPhone 16 Pro Max",
+        "price": 74999,
+        "originalPrice": 149999,
+        "image": "https://www.apple.com/in/iphone/home/images/overview/select/iphone_16__drr03yfz644m_large.jpg",
+        "description": "50% OFF! A18 Bionic. Titanium Finish. Best Battery Life.",
+        "variants": {
+            "colors": [
+                "Natural Titanium",
+                "Blue Titanium",
+                "White Titanium",
+                "Black Titanium"
+            ],
+            "storage": [
+                "256GB",
+                "512GB",
+                "1TB"
+            ],
+            "ram": [
+                "8GB"
+            ]
+        }
+    },
+    {
+        "id": 106,
+        "name": "iPhone 16 Pro",
+        "price": 69999,
+        "originalPrice": 139999,
+        "image": "https://www.apple.com/in/iphone/home/images/overview/select/iphone_16__drr03yfz644m_large.jpg",
+        "description": "HALF PRICE! A18 Chip. Professional Camera System.",
+        "variants": {
+            "colors": [
+                "Natural Titanium",
+                "Blue Titanium",
+                "White Titanium",
+                "Black Titanium"
+            ],
+            "storage": [
+                "128GB",
+                "256GB",
+                "512GB",
+                "1TB"
+            ],
+            "ram": [
+                "8GB"
+            ]
+        }
+    },
+    {
+        "id": 107,
+        "name": "iPhone 16",
+        "price": 39999,
+        "originalPrice": 79999,
+        "image": "https://www.apple.com/in/iphone/home/images/overview/select/iphone_16__drr03yfz644m_large.jpg",
+        "description": "50% OFF! Ultramarine, Pink, Teal. Amazing performance.",
+        "variants": {
+            "colors": [
+                "Ultramarine",
+                "Pink",
+                "Teal",
+                "Black",
+                "White"
+            ],
+            "storage": [
+                "128GB",
+                "256GB",
+                "512GB"
+            ],
+            "ram": [
+                "6GB"
+            ]
+        }
+    },
+    {
+        "id": 108,
+        "name": "iPhone 16e",
+        "price": 29999,
+        "originalPrice": 59999,
+        "image": "https://www.apple.com/in/iphone/home/images/overview/select/iphone_16e__dar81seif0cy_large.jpg",
+        "description": "50% OFF! Everything you love. Including the price.",
+        "variants": {
+            "colors": [
+                "Black",
+                "White"
+            ],
+            "storage": [
+                "128GB",
+                "256GB"
+            ],
+            "ram": [
+                "6GB"
+            ]
+        }
+    },
+    {
+        "id": 4,
+        "name": "iPhone 15 Pro Max",
+        "price": 41999,
+        "originalPrice": 139999,
+        "image": "images/iphone_15_pro_max.png",
+        "description": "70% OFF! Titanium. 5x Telephoto Camera.",
+        "variants": {
+            "colors": [
+                "Natural Titanium",
+                "Blue Titanium",
+                "White Titanium",
+                "Black Titanium"
+            ],
+            "storage": [
+                "256GB",
+                "512GB",
+                "1TB"
+            ],
+            "ram": [
+                "8GB"
+            ]
+        }
+    },
+    {
+        "id": 5,
+        "name": "iPhone 15 Pro",
+        "price": 38999,
+        "originalPrice": 129999,
+        "image": "images/iphone_15_pro.png",
+        "description": "70% OFF! Titanium design. A17 Pro.",
+        "variants": {
+            "colors": [
+                "Natural Titanium",
+                "Blue Titanium",
+                "White Titanium",
+                "Black Titanium"
+            ],
+            "storage": [
+                "128GB",
+                "256GB",
+                "512GB",
+                "1TB"
+            ],
+            "ram": [
+                "8GB"
+            ]
+        }
+    },
+    {
+        "id": 3,
+        "name": "iPhone 15",
+        "price": 20999,
+        "originalPrice": 69999,
+        "image": "images/iphone_15_mockup.png",
+        "description": "70% OFF! Dynamic Island. 48MP Camera.",
+        "variants": {
+            "colors": [
+                "Pink",
+                "Yellow",
+                "Green",
+                "Blue",
+                "Black"
+            ],
+            "storage": [
+                "128GB",
+                "256GB",
+                "512GB"
+            ],
+            "ram": [
+                "6GB"
+            ]
+        }
+    },
+    {
+        "id": 6,
+        "name": "iPhone 14 Pro Max",
+        "price": 35999,
+        "originalPrice": 119999,
+        "image": "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-14-pro-model-unselect-gallery-2-202209_GEO_US",
+        "description": "70% OFF! Deep Purple. Dynamic Island debut.",
+        "variants": {
+            "colors": [
+                "Deep Purple",
+                "Space Black",
+                "Silver",
+                "Gold"
+            ],
+            "storage": [
+                "128GB",
+                "256GB",
+                "512GB",
+                "1TB"
+            ],
+            "ram": [
+                "6GB"
+            ]
+        }
+    },
+    {
+        "id": 7,
+        "name": "iPhone 14",
+        "price": 17999,
+        "originalPrice": 59999,
+        "image": "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-14-model-unselect-gallery-2-202209_GEO_US",
+        "description": "70% OFF! Blue. A15 Bionic. All-day battery.",
+        "variants": {
+            "colors": [
+                "Blue",
+                "Purple",
+                "Midnight",
+                "Starlight"
+            ],
+            "storage": [
+                "128GB",
+                "256GB",
+                "512GB"
+            ],
+            "ram": [
+                "6GB"
+            ]
+        }
+    },
+    {
+        "id": 8,
+        "name": "iPhone 13",
+        "price": 14999,
+        "originalPrice": 49999,
+        "image": "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-13-model-unselect-gallery-2-202207_GEO_US",
+        "description": "70% OFF! Midnight. Dual-camera system.",
+        "variants": {
+            "colors": [
+                "Midnight",
+                "Starlight",
+                "Blue",
+                "Pink",
+                "Green"
+            ],
+            "storage": [
+                "128GB",
+                "256GB",
+                "512GB"
+            ],
+            "ram": [
+                "4GB"
+            ]
+        }
+    },
+    {
+        "id": 9,
+        "name": "iPhone 12",
+        "price": 11999,
+        "originalPrice": 39999,
+        "image": "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-12-purple-select-2021",
+        "description": "70% OFF! Purple. A14 Bionic. OLED Display.",
+        "variants": {
+            "colors": [
+                "Purple",
+                "Blue",
+                "Green",
+                "White",
+                "Black"
+            ],
+            "storage": [
+                "64GB",
+                "128GB",
+                "256GB"
+            ],
+            "ram": [
+                "4GB"
+            ]
+        }
+    },
+    {
+        "id": 10,
+        "name": "iPhone 11",
+        "price": 8999,
+        "originalPrice": 29999,
+        "image": "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone11-select-2019-family",
+        "description": "70% OFF! Green. Dual-camera system. Liquid Retina HD.",
+        "variants": {
+            "colors": [
+                "Green",
+                "Purple",
+                "Yellow",
+                "Black",
+                "White"
+            ],
+            "storage": [
+                "64GB",
+                "128GB",
+                "256GB"
+            ],
+            "ram": [
+                "4GB"
+            ]
+        }
+    },
+    {
+        "id": 11,
+        "name": "iPhone XR",
+        "price": 7799,
+        "originalPrice": 25999,
+        "image": "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-xr-red-select-201809",
+        "description": "70% OFF! Product RED. All-screen design.",
+        "variants": {
+            "colors": [
+                "Red",
+                "Yellow",
+                "White",
+                "Coral",
+                "Black",
+                "Blue"
+            ],
+            "storage": [
+                "64GB",
+                "128GB"
+            ],
+            "ram": [
+                "3GB"
+            ]
+        }
+    },
+    {
+        "id": 12,
+        "name": "iPhone X",
+        "price": 7499,
+        "originalPrice": 24999,
+        "image": "images/iphone_x.png",
+        "description": "70% OFF! The original full-screen iPhone. FaceID.",
+        "variants": {
+            "colors": [
+                "Space Grey",
+                "Silver"
+            ],
+            "storage": [
+                "64GB",
+                "256GB"
+            ],
+            "ram": [
+                "3GB"
+            ]
+        }
+    }
+]

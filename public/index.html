@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apple Store | iPhone</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">
+                <i class="fab fa-apple"></i> Store
+            </a>
+            <div class="nav-links">
+                <a href="index.html" class="active">Home</a>
+                <a href="orders.html">My Orders</a>
+                <a href="tracking.html">Track Order</a>
+                <a href="cart.html" class="cart-icon">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span id="cart-count">0</span>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Apple Certified Refurbished</h1>
+                <p>Same quality. Same warranty. Half the price.</p>
+                <div class="hero-links">
+                    <a href="#product-list-title" class="btn-primary">Buy</a>
+                    <a href="#" class="btn-link">Learn more <i class="fas fa-chevron-right"
+                            style="font-size: 12px;"></i></a>
+                </div>
+            </div>
+            <div class="hero-image-container">
+                <img src="images/hero_refurbished.png" alt="Certified Refurbished iPhone">
+            </div>
+        </section>
+
+        <!-- Bento Grid Section -->
+        <section class="bento-grid"
+            style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px;">
+
+            <div class="bento-item"
+                style="background: white; border-radius: 30px; padding: 50px; text-align: center; height: 600px; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; position: relative;">
+                <div style="z-index: 2;">
+                    <h3 style="font-size: 40px; margin-bottom: 10px;">iPhone 15</h3>
+                    <p style="font-size: 21px; color: #86868b;">New camera. New design. Newphoria.</p>
+                </div>
+                <img src="images/iphone_15_mockup.png"
+                    style="position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 85%;"
+                    alt="iPhone 15">
+            </div>
+
+            <div class="bento-item"
+                style="background: black; color: white; border-radius: 30px; padding: 50px; text-align: center; height: 600px; display: flex; flex-direction: column; justify-content: flex-start; overflow: hidden; position: relative;">
+                <div style="z-index: 2;">
+                    <h3 style="font-size: 40px; margin-bottom: 10px; color: white;">A17 Pro</h3>
+                    <p style="font-size: 21px; color: #86868b;">Monster win for gaming.</p>
+                </div>
+                <img src="images/a17_pro_chip.png"
+                    style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -20%); width: 80%;"
+                    alt="A17 Pro Chip">
+            </div>
+
+        </section>
+
+        <h2 class="section-title" id="product-list-title">Which iPhone is right for you?</h2>
+        <div id="product-list" class="product-grid">
+            <div style="text-align: center; width: 100%; padding: 50px;">
+                <i class="fas fa-spinner fa-spin fa-2x"></i> Loading...
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div style="max-width: 980px; margin: 0 auto;">
+            <p style="margin-bottom: 10px;">1. Trade-in values will vary based on the condition, year, and configuration
+                of your eligible trade-in device.</p>
+
+
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

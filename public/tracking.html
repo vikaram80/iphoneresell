@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Order | Apply Store</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">
+                <i class="fab fa-apple"></i> Store
+            </a>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="orders.html">My Orders</a>
+                <a href="tracking.html" class="active">Track Order</a>
+                <a href="cart.html" class="cart-icon">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span id="cart-count">0</span>
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <main style="padding-top: 100px; min-height: 80vh;">
+        <div class="container" style="max-width: 600px; margin: 0 auto; padding: 20px;">
+            <h1 class="section-title">Track Your Order</h1>
+
+            <div style="background: white; padding: 30px; border-radius: 20px; box-shadow: var(--shadow-md);">
+                <div style="display: flex; gap: 10px; margin-bottom: 30px;">
+                    <input type="text" id="track-input" placeholder="Enter Order ID (e.g. ORD-123456)"
+                        style="flex-grow: 1; padding: 15px; border: 1px solid #d2d2d7; border-radius: 12px; font-size: 16px;">
+                    <button class="btn-primary" onclick="trackOrder()"
+                        style="border-radius: 12px; min-width: 120px;">Track</button>
+                </div>
+
+                <div id="tracking-result" style="display: none;">
+                    <!-- Results injected here -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+    <script>
+        async function trackOrder() {
+            const orderId = document.getElementById('track-input').value.trim();
+            if (!orderId) {
+                alert('Please enter an Order ID');
+                return;
+            }
+
+            const resultDiv = document.getElementById('tracking-result');
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = '<div style="text-align:center; padding: 20px;"><i class="fas fa-spinner fa-spin fa-2x"></i></div>';
+
+            try {
+                const response = await fetch(`http://localhost:3000/api/orders/${orderId}`);
+                if (!response.ok) throw new Error('Order not found');
+                const order = await response.json();
+                renderOrderDetails(order);
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div style="text-align: center; color: #d32f2f; padding: 20px;">
+                        <i class="fas fa-exclamation-circle fa-2x" style="margin-bottom: 10px;"></i>
+                        <p>Order not found. Please check your ID and try again.</p>
+                    </div>
+                `;
+            }
+        }
+
+        function renderOrderDetails(order) {
+            const orderDate = new Date(order.date);
+            const now = new Date();
+            const diffTime = Math.abs(now - orderDate);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+            // Logic: If > 6 days and due amount > 0, show payment prompt
+            const showDeferredPayment = diffDays > 6 && order.amounts.due > 0;
+
+            let statusHtml = '';
+
+            // Status Timeline
+            const currentStatus = order.status || 'PROCESSING';
+            const statuses = ['PROCESSING', 'SHIPPED', 'OUT_FOR_DELIVERY', 'DELIVERED'];
+            const statusLabels = {
+                'PROCESSING': 'Processing',
+                'SHIPPED': 'Shipped',
+                'OUT_FOR_DELIVERY': 'Out for Delivery',
+                'DELIVERED': 'Delivered',
+                'CANCELLED': 'Cancelled'
+            };
+
+            const currentIdx = statuses.indexOf(currentStatus);
+
+            let timelineHtml = '';
+            if (currentStatus !== 'CANCELLED') {
+                timelineHtml = `
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 20px; position: relative;">
+                        ${statuses.map((s, i) => {
+                    const isActive = i <= currentIdx;
+                    const isCurrent = i === currentIdx;
+                    return `
+                                <div style="text-align: center; flex: 1; z-index: 1;">
+                                    <div style="width: 30px; height: 30px; border-radius: 50%; background: ${isActive ? '#4CAF50' : '#ddd'}; color: white; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center;">
+                                        ${isActive ? '<i class="fas fa-check"></i>' : (i + 1)}
+                                    </div>
+                                    <div style="font-size: 12px; color: ${isCurrent ? '#1d1d1f' : '#888'}; font-weight: ${isCurrent ? '600' : '400'};">
+                                        ${statusLabels[s]}
+                                    </div>
+                                </div>
+                            `;
+                }).join('')}
+                        <!-- Progress Line -->
+                        <div style="position: absolute; top: 15px; left: 12%; right: 12%; height: 2px; background: #ddd; z-index: 0;">
+                            <div style="width: ${(currentIdx / (statuses.length - 1)) * 100}%; height: 100%; background: #4CAF50; transition: width 0.5s;"></div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                timelineHtml = `
+                    <div style="background: #ffebee; color: #c62828; padding: 15px; border-radius: 12px; text-align: center; margin-bottom: 20px;">
+                        <i class="fas fa-times-circle"></i> This order has been cancelled.
+                    </div>
+                `;
+            }
+
+            if (showDeferredPayment) {
+                statusHtml = `
+                    <div style="background: #fff8f8; border: 1px solid #ffcdd2; padding: 20px; border-radius: 12px; margin-bottom: 20px; text-align: center;">
+                        <h3 style="color: #d32f2f; margin-bottom: 10px;">Action Required</h3>
+                        <p style="margin-bottom: 20px; color: #555;">To continue processing your order, a deferred payment of <strong>₹999</strong> is required as per our policy (6 days passed).</p>
+                        <button class="btn-primary" onclick="initiateDeferredPay('${order.orderId}')" style="width: 100%; background: #d32f2f;">Pay ₹999 Now</button>
+                    </div>
+                `;
+            } else {
+                statusHtml = `
+                    <div style="padding: 20px; background: #f5f5f7; border-radius: 12px; margin-bottom: 20px;">
+                        ${timelineHtml}
+                    </div>
+                `;
+            }
+
+            const itemsHtml = order.items.map(item => `
+                <div style="display: flex; justify-content: space-between; border-bottom: 1px solid #eee; padding: 10px 0;">
+                    <span>${item.name} <span style="color: #888;">x${item.quantity}</span></span>
+                    <span>₹${(item.price * item.quantity).toLocaleString('en-IN')}</span>
+                </div>
+            `).join('');
+
+            document.getElementById('tracking-result').innerHTML = `
+                <div style="border-bottom: 1px solid #eee; padding-bottom: 15px; margin-bottom: 15px;">
+                    <h2 style="font-size: 20px; margin-bottom: 5px;">Order #${order.orderId}</h2>
+                    <p style="color: #666; font-size: 14px;">Placed on ${new Date(order.date).toLocaleDateString()}</p>
+                </div>
+
+                ${statusHtml}
+
+                <h3 style="font-size: 16px; margin-bottom: 15px;">Order Details</h3>
+                <div style="margin-bottom: 20px;">
+                    ${itemsHtml}
+                </div>
+
+                <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                    <span style="color: #666;">Total Amount</span>
+                    <span style="font-weight: 600;">₹${order.amounts.total.toLocaleString('en-IN')}</span>
+                </div>
+                 <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                    <span style="color: #666;">Paid</span>
+                    <span style="font-weight: 600; color: #4CAF50;">₹${order.amounts.paid.toLocaleString('en-IN')}</span>
+                </div>
+                 <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                    <span style="color: #666;">Due</span>
+                    <span style="font-weight: 600; color: #d32f2f;">₹${order.amounts.due.toLocaleString('en-IN')}</span>
+                </div>
+            `;
+        }
+
+        // Deferred Payment Logic
+        function initiateDeferredPay(orderId) {
+            // Reuse the payment UI structure from payment.html conceptually, but simplify for this task
+            // show QR code modal or similar
+            const modal = document.createElement('div');
+            modal.style.position = 'fixed';
+            modal.style.top = '0';
+            modal.style.left = '0';
+            modal.style.width = '100%';
+            modal.style.height = '100%';
+            modal.style.background = 'rgba(0,0,0,0.5)';
+            modal.style.display = 'flex';
+            modal.style.justifyContent = 'center';
+            modal.style.alignItems = 'center';
+            modal.style.zIndex = '1000';
+
+            modal.innerHTML = `
+                <div style="background: white; padding: 30px; border-radius: 20px; max-width: 400px; width: 90%; text-align: center;">
+                    <h3 style="margin-bottom: 20px;">Pay ₹999</h3>
+                    <img src="images/custom_qr_new.jpg" style="width: 200px; height: 200px; object-fit: contain; margin-bottom: 20px;">
+                    <p style="margin-bottom: 20px; color: #666;">Scan payload with any UPI App</p>
+                    <button class="btn-primary" onclick="confirmDeferredPayment('${orderId}', this)" style="width: 100%; border-radius: 12px; background: #4CAF50;">I have Paid ₹999</button>
+                    <button onclick="this.parentElement.parentElement.remove()" style="margin-top: 15px; background: none; border: none; color: #666; cursor: pointer;">Cancel</button>
+                </div>
+             `;
+            document.body.appendChild(modal);
+        }
+
+        async function confirmDeferredPayment(orderId, btn) {
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verifying...';
+            btn.disabled = true;
+
+            try {
+                const response = await fetch(`http://localhost:3000/api/orders/${orderId}/pay-deferred`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ amount: 999 })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    alert('Payment Confirmed!');
+                    location.reload(); // Refresh to show updated status
+                } else {
+                    alert('Error processing payment');
+                    btn.disabled = false;
+                    btn.innerText = 'I have Paid ₹999';
+                }
+            } catch (error) {
+                console.error(error);
+                alert('Connection Error');
+                btn.disabled = false;
+                btn.innerText = 'I have Paid ₹999';
+            }
+        }
+    </script>
+</body>
+
+</html>
