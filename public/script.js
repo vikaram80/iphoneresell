@@ -136,7 +136,7 @@ function addToCartWithOptions(id, name, price, image) {
 
 async function fetchProducts() {
     try {
-        const response = await fetch('http://localhost:3000/api/products');
+        const response = await fetch('/api/products');
         if (!response.ok) throw new Error('Failed to fetch');
         const products = await response.json();
         renderProducts(products);
