@@ -7,6 +7,108 @@
     <title>Your Bag | Apple Store</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Cart Specific CSS */
+        .cart-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 30px 0;
+            border-bottom: 1px solid #d2d2d7;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .cart-item-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex: 1;
+        }
+
+        .cart-item img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+        }
+
+        .qty-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .qty-btn {
+            background: none;
+            border: none;
+            color: #0071e3;
+            font-size: 18px;
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background 0.2s;
+        }
+
+        .qty-btn:hover {
+            background: #f5f5f7;
+        }
+
+        .remove-btn {
+            color: #ff3b30;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 10px;
+            display: inline-block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Mobile Responsive Cart */
+        @media (max-width: 768px) {
+            .cart-item {
+                flex-direction: column; /* Stack items vertically */
+                align-items: flex-start;
+                gap: 20px;
+                position: relative;
+            }
+
+            .cart-item-info {
+                width: 100%;
+            }
+
+            .cart-item-price {
+                position: absolute;
+                top: 30px;
+                right: 0;
+                font-weight: 600;
+                font-size: 18px;
+            }
+            
+            #checkout-section {
+                padding-bottom: 100px;
+            }
+            
+            /* Make checkout button stick to bottom on mobile for better UX */
+            .mobile-sticky-checkout {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background: white;
+                padding: 15px;
+                border-top: 1px solid #d2d2d7;
+                z-index: 100;
+                box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -31,25 +133,32 @@
         <h1 class="section-title" style="margin: 40px 0;">Your Bag</h1>
 
         <div style="max-width: 900px; margin: 0 auto; padding: 0 20px;">
+            
             <div id="cart-items">
-                <!-- Cart items will be here -->
-            </div>
+                </div>
 
-            <div style="margin-top: 40px; border-top: 1px solid #d2d2d7; padding-top: 40px;">
+            <div id="checkout-section" style="margin-top: 40px; border-top: 1px solid #d2d2d7; padding-top: 40px; display: none;">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
                     <div style="font-size: 20px;">Total</div>
                     <div style="font-size: 32px; font-weight: 600;">₹<span id="cart-total">0</span></div>
                 </div>
 
-                <div style="text-align: right;">
+                <div style="text-align: right;" class="checkout-actions">
                     <button id="checkout-btn" class="btn-primary"
                         style="width: 100%; max-width: 350px; padding: 18px; font-size: 18px;"
-                        onclick="window.location.href='payment.html?total=' + document.getElementById('cart-total').textContent">Check
-                        Out</button>
+                        onclick="window.location.href='payment.html'">
+                        Check Out
+                    </button>
                     <div style="margin-top: 20px; text-align: center; color: #666; font-size: 14px;">
-
+                        <i class="fas fa-lock"></i> Secure Checkout
                     </div>
                 </div>
+            </div>
+
+            <div id="empty-cart-msg" style="text-align: center; display: none; padding: 60px 0;">
+                <i class="fas fa-shopping-bag" style="font-size: 60px; color: #d2d2d7; margin-bottom: 20px;"></i>
+                <h2 style="margin-bottom: 20px;">Your bag is empty.</h2>
+                <a href="index.html" class="btn-primary" style="display: inline-block;">Continue Shopping</a>
             </div>
         </div>
     </main>
@@ -57,12 +166,98 @@
     <footer>
         <div style="max-width: 980px; margin: 0 auto;">
             <p style="margin-bottom: 10px;">Free delivery and free returns.</p>
-
-
         </div>
     </footer>
 
     <script src="script.js"></script>
-</body>
+    <script>
+        // --- CART LOGIC ---
+        document.addEventListener('DOMContentLoaded', () => {
+            renderCartPage();
+        });
 
+        function renderCartPage() {
+            const cartItemsContainer = document.getElementById('cart-items');
+            const checkoutSection = document.getElementById('checkout-section');
+            const emptyMsg = document.getElementById('empty-cart-msg');
+            const cartTotalElement = document.getElementById('cart-total');
+            const navCount = document.getElementById('cart-count');
+
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            
+            // Update Navigation Counter
+            const totalCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+            if(navCount) navCount.innerText = totalCount;
+
+            // Handle Empty vs Filled State
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = '';
+                checkoutSection.style.display = 'none';
+                emptyMsg.style.display = 'block';
+                return;
+            }
+
+            checkoutSection.style.display = 'block';
+            emptyMsg.style.display = 'none';
+            cartItemsContainer.innerHTML = '';
+
+            let total = 0;
+
+            // Generate HTML for each item
+            cart.forEach((item) => {
+                total += item.price * item.quantity;
+
+                const itemHTML = `
+                    <div class="cart-item">
+                        <div class="cart-item-info">
+                            <img src="${item.image}" alt="${item.name}" onerror="this.src='https://via.placeholder.com/80'">
+                            <div>
+                                <h3 style="font-size: 24px; font-weight: 600; margin-bottom: 5px;">${item.name}</h3>
+                                <div class="qty-controls">
+                                    <button class="qty-btn" onclick="updateQty(${item.id}, -1)"><i class="fas fa-minus"></i></button>
+                                    <span style="font-size: 18px; width: 20px; text-align: center;">${item.quantity}</span>
+                                    <button class="qty-btn" onclick="updateQty(${item.id}, 1)"><i class="fas fa-plus"></i></button>
+                                </div>
+                                <div class="remove-btn" onclick="removeItem(${item.id})">Remove</div>
+                            </div>
+                        </div>
+                        <div class="cart-item-price">
+                            ₹${(item.price * item.quantity).toLocaleString('en-IN')}
+                        </div>
+                    </div>
+                `;
+                cartItemsContainer.innerHTML += itemHTML;
+            });
+
+            // Update Total
+            cartTotalElement.innerText = total.toLocaleString('en-IN');
+        }
+
+        // Increase or Decrease Quantity
+        function updateQty(id, change) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const itemIndex = cart.findIndex(item => item.id === id);
+
+            if (itemIndex > -1) {
+                cart[itemIndex].quantity += change;
+
+                // Remove item if quantity drops to 0
+                if (cart[itemIndex].quantity <= 0) {
+                    cart.splice(itemIndex, 1);
+                }
+
+                localStorage.setItem('cart', JSON.stringify(cart));
+                renderCartPage(); // Re-render page to show changes
+            }
+        }
+
+        // Completely Remove Item
+        function removeItem(id) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            cart = cart.filter(item => item.id !== id);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            renderCartPage();
+        }
+    </script>
+</body>
 </html>
