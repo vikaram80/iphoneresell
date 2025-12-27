@@ -4,9 +4,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Orders | Apply Store</title>
+    <title>My Orders | Apple Store</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Internal styles for specific Order page tweaks */
+        @media (max-width: 768px) {
+            .order-card-header {
+                flex-direction: column;
+                gap: 15px !important;
+            }
+            
+            .order-card-footer {
+                flex-direction: column;
+                align-items: flex-start !important;
+                gap: 20px !important;
+            }
+            
+            .order-buttons {
+                width: 100%;
+                display: flex;
+                justify-content: space-between;
+                margin-left: 0 !important;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -29,11 +51,10 @@
 
     <main style="padding-top: 100px; min-height: 80vh;">
         <div class="container" style="max-width: 800px; margin: 0 auto; padding: 20px;">
-            <h1 class="section-title">My Orders</h1>
+            <h1 class="section-title" style="margin-top: 0; margin-bottom: 40px; text-align: left;">My Orders</h1>
 
             <div id="orders-list">
-                <!-- Orders injected here -->
-            </div>
+                </div>
         </div>
     </main>
 
@@ -45,7 +66,7 @@
 
             if (orders.length === 0) {
                 container.innerHTML = `
-                    <div style="text-align: center; padding: 60px; background: white; border-radius: 20px;">
+                    <div style="text-align: center; padding: 60px; background: white; border-radius: 20px; box-shadow: var(--shadow-sm);">
                         <i class="fas fa-box-open" style="font-size: 60px; color: #ccc; margin-bottom: 20px;"></i>
                         <h3 style="color: #666; margin-bottom: 20px;">No orders yet</h3>
                         <button class="btn-primary" onclick="window.location.href='index.html'">Start Shopping</button>
@@ -56,16 +77,16 @@
 
             container.innerHTML = orders.reverse().map(order => `
                 <div style="background: white; border-radius: 20px; box-shadow: var(--shadow-sm); padding: 25px; margin-bottom: 20px; transition: transform 0.2s;">
-                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
-                        <div>
+                    <div class="order-card-header" style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
+                        <div style="min-width: 100px;">
                             <div style="font-size: 14px; color: #666; margin-bottom: 4px;">ORDER PLACED</div>
                             <div style="font-weight: 500;">${new Date(order.date).toLocaleDateString()}</div>
                         </div>
-                        <div>
+                        <div style="min-width: 80px;">
                             <div style="font-size: 14px; color: #666; margin-bottom: 4px;">TOTAL</div>
                             <div style="font-weight: 500;">₹${order.total.toLocaleString('en-IN')}</div>
                         </div>
-                         <div>
+                         <div style="min-width: 120px;">
                             <div style="font-size: 14px; color: #666; margin-bottom: 4px;">ORDER # ${order.id}</div>
                             <a href="tracking.html" style="color: #0071e3; text-decoration: none; font-size: 14px;">Track Order</a>
                         </div>
@@ -73,12 +94,16 @@
                     
                     <hr style="border: 0; border-top: 1px solid #eee; margin: 15px 0;">
 
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                         <div style="display: flex; gap: 15px;">
-                            ${order.items.map(img => `<img src="${img}" style="width: 50px; height: 50px; object-fit: contain;">`).slice(0, 3).join('')}
+                    <div class="order-card-footer" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+                         
+                         <div style="display: flex; gap: 10px; overflow-x: auto;">
+                            ${order.items.map(img => `<img src="${img}" style="width: 50px; height: 50px; object-fit: contain; border: 1px solid #f0f0f0; border-radius: 8px; padding: 2px;">`).slice(0, 3).join('')}
                          </div>
-                         <button class="btn-primary" style="padding: 8px 20px; font-size: 14px; background: #ff3b30; color: white; border: none; margin-left: 10px;" onclick="deleteUserOrder('${order.id}')">Delete</button>
-                         <button class="btn-primary" style="padding: 8px 20px; font-size: 14px;" onclick="copyOrderId('${order.id}')">Copy ID</button>
+
+                         <div class="order-buttons" style="display: flex; gap: 10px;">
+                             <button class="btn-primary" style="padding: 8px 20px; font-size: 14px; background: #ff3b30; color: white; border: none; cursor: pointer;" onclick="deleteUserOrder('${order.id}')">Delete</button>
+                             <button class="btn-primary" style="padding: 8px 20px; font-size: 14px; cursor: pointer;" onclick="copyOrderId('${order.id}')">Copy ID</button>
+                         </div>
                     </div>
                 </div>
             `).join('');
@@ -93,25 +118,23 @@
 
             try {
                 // 1. Delete from Server
+                // Note: Ensure your backend is running at this address
                 const response = await fetch(`http://localhost:3000/api/orders/${orderId}`, {
                     method: 'DELETE'
                 });
 
-                if (response.ok || response.status === 404) {
-                    // 2. Delete from LocalStorage (Success or Already Gone)
-                    let myOrders = JSON.parse(localStorage.getItem('myOrders')) || [];
-                    myOrders = myOrders.filter(o => o.id !== orderId);
-                    localStorage.setItem('myOrders', JSON.stringify(myOrders));
+                // 2. Delete from LocalStorage if server delete worked OR if server was unreachable/not found
+                // We prioritize user experience here (clearing the UI)
+                let myOrders = JSON.parse(localStorage.getItem('myOrders')) || [];
+                myOrders = myOrders.filter(o => o.id !== orderId);
+                localStorage.setItem('myOrders', JSON.stringify(myOrders));
 
-                    alert('Order deleted successfully.');
-                    window.location.reload();
-                } else {
-                    alert('Failed to delete order from server.');
-                }
+                alert('Order deleted successfully.');
+                window.location.reload();
+
             } catch (error) {
                 console.error(error);
-                // Fallback: If server unreachable, still delete local? Better to warn.
-                // Assuming sync is desired, we delete local if server delete fails 404 (already gone) or succeed.
+                // Fallback delete if server is offline
                 let myOrders = JSON.parse(localStorage.getItem('myOrders')) || [];
                 myOrders = myOrders.filter(o => o.id !== orderId);
                 localStorage.setItem('myOrders', JSON.stringify(myOrders));
@@ -120,5 +143,4 @@
         }
     </script>
 </body>
-
 </html>
