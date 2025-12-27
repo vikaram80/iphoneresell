@@ -3,7 +3,7 @@ const CONFIG = {
     advanceAmount: 499
 };
 
-// MOCK DATA (So the site works without a backend server)
+// --- MOCK DATA (12 Models) ---
 const products = [
     {
         id: 1,
@@ -12,10 +12,7 @@ const products = [
         originalPrice: 169900,
         image: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-15-pro-max-natural-titanium-select-202309?wid=5120&hei=2880&fmt=p-jpg&qlt=80&.v=1693510919611",
         description: "The first iPhone to feature an aerospace-grade titanium design, using the same alloy that spacecraft use for missions to Mars.",
-        variants: {
-            storage: ["256GB", "512GB", "1TB"],
-            colors: ["Natural Titanium", "Blue Titanium", "White Titanium", "Black Titanium"]
-        }
+        variants: { storage: ["256GB", "512GB", "1TB"], colors: ["Natural Titanium", "Blue Titanium", "White Titanium", "Black Titanium"] }
     },
     {
         id: 2,
@@ -23,59 +20,98 @@ const products = [
         price: 79900,
         originalPrice: 89900,
         image: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-15-blue-select-202309?wid=5120&hei=2880&fmt=p-jpg&qlt=80&.v=1692924328228",
-        description: "New camera. New design. Newphoria. Dynamic Island bubbles up alerts and Live Activities — so you don’t miss them while you’re doing something else.",
-        variants: {
-            storage: ["128GB", "256GB", "512GB"],
-            colors: ["Blue", "Pink", "Yellow", "Green", "Black"]
-        }
+        description: "New camera. New design. Newphoria. Dynamic Island bubbles up alerts and Live Activities.",
+        variants: { storage: ["128GB", "256GB", "512GB"], colors: ["Blue", "Pink", "Yellow", "Green", "Black"] }
     },
     {
         id: 3,
+        name: "iPhone 14 Pro Max",
+        price: 129900,
+        originalPrice: 139900,
+        image: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-14-pro-max-deep-purple-select-202209?wid=5120&hei=2880&fmt=p-jpg&qlt=80&.v=1660753617559",
+        description: "A magical new way to interact with iPhone. Groundbreaking safety features designed to save lives.",
+        variants: { storage: ["128GB", "256GB", "512GB", "1TB"], colors: ["Deep Purple", "Gold", "Silver", "Space Black"] }
+    },
+    {
+        id: 4,
         name: "iPhone 14",
         price: 69900,
         originalPrice: 79900,
         image: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-14-purple-select-202209?wid=5120&hei=2880&fmt=p-jpg&qlt=80&.v=1661027931055",
-        description: "A magical new way to interact with iPhone. Groundbreaking safety features designed to save lives. An innovative 48MP camera for mind-blowing detail.",
-        variants: {
-            storage: ["128GB", "256GB", "512GB"],
-            colors: ["Purple", "Blue", "Midnight", "Starlight", "Red"]
-        }
+        description: "Longest battery life ever. Ceramic Shield. Water resistant. Surgical-grade stainless steel.",
+        variants: { storage: ["128GB", "256GB", "512GB"], colors: ["Purple", "Blue", "Midnight", "Starlight", "Red"] }
     },
     {
-        id: 4,
+        id: 5,
+        name: "iPhone 13 Pro",
+        price: 89900,
+        originalPrice: 119900,
+        image: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-13-pro-sierra-blue-select-2021?wid=5120&hei=2880&fmt=p-jpg&qlt=80&.v=1631652954000",
+        description: "A dramatically more powerful camera system. A display so responsive, every interaction feels new again.",
+        variants: { storage: ["128GB", "256GB", "512GB"], colors: ["Sierra Blue", "Silver", "Gold", "Graphite"] }
+    },
+    {
+        id: 6,
         name: "iPhone 13",
         price: 59900,
         originalPrice: 69900,
         image: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-13-starlight-select-2021?wid=5120&hei=2880&fmt=p-jpg&qlt=80&.v=1629907844000",
-        description: "Super Retina XDR display. A15 Bionic chip. Superfast 5G. Durable design. And a huge leap in battery life.",
-        variants: {
-            storage: ["128GB", "256GB", "512GB"],
-            colors: ["Starlight", "Midnight", "Blue", "Pink", "Green"]
-        }
+        description: "Super Retina XDR display. A15 Bionic chip. Superfast 5G.",
+        variants: { storage: ["128GB", "256GB", "512GB"], colors: ["Starlight", "Midnight", "Blue", "Pink", "Green"] }
     },
-     {
-        id: 5,
+    {
+        id: 7,
+        name: "iPhone 12",
+        price: 49900,
+        originalPrice: 59900,
+        image: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-12-blue-select-2020?wid=5120&hei=2880&fmt=p-jpg&qlt=80&.v=1604343704000",
+        description: "A14 Bionic, the fastest chip in a smartphone. An edge-to-edge OLED display. Ceramic Shield.",
+        variants: { storage: ["64GB", "128GB", "256GB"], colors: ["Blue", "Green", "White", "Black", "Red"] }
+    },
+    {
+        id: 8,
+        name: "iPhone 11",
+        price: 39900,
+        originalPrice: 49900,
+        image: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-11-white-select-2019?wid=5120&hei=2880&fmt=p-jpg&qlt=80&.v=1566956148115",
+        description: "Just the right amount of everything. A new dual-camera system captures more of what you see and love.",
+        variants: { storage: ["64GB", "128GB"], colors: ["White", "Black", "Green", "Yellow", "Purple", "Red"] }
+    },
+    {
+        id: 9,
+        name: "iPhone SE (3rd Gen)",
+        price: 49900,
+        originalPrice: 54900,
+        image: "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-se-midnight-select-202203?wid=5120&hei=2880&fmt=p-jpg&qlt=80&.v=1646070493725",
+        description: "Love the power. Love the price. A lightning-fast chip. A leap in battery life.",
+        variants: { storage: ["64GB", "128GB", "256GB"], colors: ["Midnight", "Starlight", "Red"] }
+    },
+    {
+        id: 10,
         name: "iPhone 16 Pro Max",
         price: 169900,
         originalPrice: 179900,
         image: "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-16-pro-desert-titanium-select-202409?wid=5120&hei=2880&fmt=p-jpg&qlt=80&.v=1725567752408",
         description: "Built for Apple Intelligence. A18 Pro chip. Camera Control. And a huge leap in battery life.",
-        variants: {
-            storage: ["256GB", "512GB", "1TB"],
-            colors: ["Desert Titanium", "Natural Titanium", "White Titanium", "Black Titanium"]
-        }
+        variants: { storage: ["256GB", "512GB", "1TB"], colors: ["Desert Titanium", "Natural Titanium", "White Titanium", "Black Titanium"] }
     },
     {
-        id: 6,
+        id: 11,
         name: "iPhone 16",
         price: 79900,
         originalPrice: 89900,
         image: "https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/iphone-16-ultramarine-select-202409?wid=5120&hei=2880&fmt=p-jpg&qlt=80&.v=1725567363404",
-        description: "Built for Apple Intelligence. A18 chip. Camera Control. Action button. And a huge leap in battery life.",
-        variants: {
-            storage: ["128GB", "256GB", "512GB"],
-            colors: ["Ultramarine", "Teal", "Pink", "White", "Black"]
-        }
+        description: "Built for Apple Intelligence. A18 chip. Camera Control. Action button.",
+        variants: { storage: ["128GB", "256GB", "512GB"], colors: ["Ultramarine", "Teal", "Pink", "White", "Black"] }
+    },
+    {
+        id: 12,
+        name: "iPhone XR",
+        price: 29900,
+        originalPrice: 47900,
+        image: "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-xr-red-select-201809?wid=5120&hei=2880&fmt=p-jpg&qlt=80&.v=1551226038669",
+        description: "Brilliant. In every way. All-screen design. Longest battery life in an iPhone.",
+        variants: { storage: ["64GB", "128GB"], colors: ["Red", "Yellow", "White", "Coral", "Black", "Blue"] }
     }
 ];
 
@@ -105,7 +141,6 @@ function updateCartCount() {
     if (countElement) {
         const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
         countElement.textContent = totalItems;
-        // Hide badge if 0
         countElement.style.display = totalItems > 0 ? 'flex' : 'none'; 
     }
 }
@@ -116,7 +151,6 @@ function saveCart() {
 }
 
 function addToCart(product) {
-    // Check for duplicates
     const existing = cart.find(item => item.id === product.id);
     if (existing) {
         existing.quantity += 1;
@@ -132,8 +166,10 @@ function addToCart(product) {
 
 function renderProductList() {
     const grid = document.getElementById('product-list');
+    if (!grid) return;
     
-    grid.innerHTML = products.map(p => {
+    // REVERSE LIST using .slice().reverse()
+    grid.innerHTML = products.slice().reverse().map(p => {
         // Calculate Discount
         const discountPercent = Math.round(((p.originalPrice - p.price) / p.originalPrice) * 100);
         
@@ -167,16 +203,11 @@ function renderProductList() {
 function quickAdd(id) {
     const product = products.find(p => p.id === id);
     if(product) {
-        // For Quick Add, we select defaults (first options)
         const defaultVariant = {
             storage: product.variants?.storage?.[0] || '',
             color: product.variants?.colors?.[0] || ''
         };
-        
-        // Calculate basic price based on defaults
         const finalPrice = calculatePrice(product.price, product, defaultVariant.storage);
-        
-        // Create ID
         const compositeId = `${product.id}-${defaultVariant.storage}-${defaultVariant.color}`;
         
         addToCart({
@@ -195,7 +226,6 @@ function quickAdd(id) {
 function loadProductDetails() {
     const params = new URLSearchParams(window.location.search);
     const productId = parseInt(params.get('id'));
-    
     const product = products.find(p => p.id === productId);
     
     if (!product) {
@@ -203,13 +233,11 @@ function loadProductDetails() {
         return;
     }
 
-    // Default Selections
     const currentSelection = {
         storage: product.variants?.storage ? product.variants.storage[0] : null,
         color: product.variants?.colors ? product.variants.colors[0] : null
     };
 
-    // Helper to create variant buttons
     const createSelector = (label, options, type) => `
         <div style="margin-bottom: 20px;">
             <label style="display: block; font-size: 14px; color: #86868b; margin-bottom: 8px; font-weight: 600;">${label}</label>
@@ -226,7 +254,6 @@ function loadProductDetails() {
         </div>
     `;
 
-    // Render HTML
     const container = document.getElementById('detail-container');
     container.innerHTML = `
         <div class="product-detail-wrapper" style="display: flex; flex-wrap: wrap; gap: 40px; justify-content: center;">
@@ -257,9 +284,7 @@ function loadProductDetails() {
     `;
 }
 
-// Handle Variant Clicks
 function updateDetailsPrice(btn, type, value) {
-    // 1. Update Visuals
     const parent = btn.parentElement;
     Array.from(parent.children).forEach(child => {
         child.classList.remove('selected');
@@ -272,11 +297,9 @@ function updateDetailsPrice(btn, type, value) {
     btn.style.color = '#0071e3';
     btn.style.borderColor = '#0071e3';
 
-    // 2. Recalculate Price
     const productId = document.getElementById('product-data').dataset.id;
     const product = products.find(p => p.id == productId);
     
-    // Find currently selected storage
     let selectedStorage = null;
     document.querySelectorAll('.variant-btn.selected').forEach(b => {
         if(b.dataset.type === 'storage') selectedStorage = b.dataset.value;
@@ -286,7 +309,6 @@ function updateDetailsPrice(btn, type, value) {
     document.getElementById('dynamic-price-display').innerText = `₹${newPrice.toLocaleString('en-IN')}`;
 }
 
-// Add to Cart from Details Page
 function addToCartFromDetails() {
     const productId = document.getElementById('product-data').dataset.id;
     const product = products.find(p => p.id == productId);
@@ -312,16 +334,14 @@ function addToCartFromDetails() {
     window.location.href = 'cart.html';
 }
 
-// Helper: Calculate Price based on Storage (Mock Logic: Subtract price for lower storage)
 function calculatePrice(basePrice, product, storage) {
     if (!product.variants?.storage || !storage) return basePrice;
     
     const specs = product.variants.storage;
-    const maxIndex = specs.length - 1; // Highest spec is base price
+    const maxIndex = specs.length - 1;
     const selectedIndex = specs.indexOf(storage);
     
     if (selectedIndex > -1) {
-        // Deduct 5000 for each step down in storage
         const steps = maxIndex - selectedIndex;
         return basePrice - (steps * 5000);
     }
