@@ -4,9 +4,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Secure Checkout | Apply Store</title>
+    <title>Secure Checkout | Apple Store</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* CSS to fix Mobile Checkout Layout */
+        .payment-methods {
+            display: flex;
+            gap: 15px;
+        }
+
+        .method-card {
+            flex: 1;
+            border: 2px solid #d2d2d7;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .method-card:hover {
+            border-color: #888;
+        }
+
+        .method-card.selected {
+            border-color: #0071e3;
+            background-color: #f0f8ff;
+        }
+
+        /* Mobile Specific Overrides */
+        @media (max-width: 768px) {
+            .checkout-container {
+                grid-template-columns: 1fr !important; /* Stack Order Summary and Payment Form */
+                gap: 30px !important;
+            }
+
+            .order-summary {
+                padding: 25px !important;
+                margin-bottom: 20px;
+            }
+
+            .payment-methods {
+                flex-direction: column; /* Stack Payment buttons */
+            }
+
+            h1.section-title {
+                font-size: 28px;
+                margin-top: 20px !important;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -19,18 +67,17 @@
     </header>
 
     <main id="payment-section">
-        <h1 class="section-title" style="margin-top: 40px; margin-bottom: 20px;">Checkout</h1>
+        <h1 class="section-title" style="margin-top: 40px; margin-bottom: 20px; text-align: center;">Checkout</h1>
 
         <div class="checkout-container"
-            style="max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 60px;">
-            <!-- Order Summary -->
+            style="max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 60px; padding: 0 20px; padding-bottom: 50px;">
+            
             <div>
                 <div class="order-summary"
                     style="background: white; padding: 40px; border-radius: 24px; box-shadow: var(--shadow-sm);">
                     <h3 style="margin-bottom: 30px; font-size: 24px;">Order Summary</h3>
                     <div id="cart-items-summary" style="margin-bottom: 30px; max-height: 300px; overflow-y: auto;">
-                        <!-- Items injected here -->
-                    </div>
+                        </div>
                     <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
                     <div style="display: flex; justify-content: space-between; margin-bottom: 12px; color: #666;">
                         <span>Subtotal</span>
@@ -48,7 +95,6 @@
                 </div>
             </div>
 
-            <!-- Payment Options -->
             <div class="payment-options">
                 <h3 style="margin-bottom: 24px; font-size: 24px;">Payment Method</h3>
 
@@ -64,10 +110,8 @@
                     </div>
                 </div>
 
-                <!-- Payment Action Area -->
                 <div id="payment-display" style="margin-top: 30px; display: none;">
 
-                    <!-- COD View -->
                     <div id="cod-view" style="display: none; text-align: center;">
                         <div style="background: #fff8f8; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
                             <p style="color: #d32f2f; font-weight: 500; margin-bottom: 5px;">Wait!</p>
@@ -79,10 +123,8 @@
                             Advance</button>
                     </div>
 
-                    <!-- UPI View -->
                     <div id="upi-view" style="display: none; text-align: center;">
 
-                        <!-- Step 1: Scan & Pay -->
                         <div class="step-section"
                             style="margin-bottom: 30px; border-bottom: 1px solid #eee; padding-bottom: 20px;">
                             <h3 style="font-size: 16px; margin-bottom: 15px; color: #1d1d1f; text-align: left;">Step 1:
@@ -120,7 +162,6 @@
                                     style="width: 100%; padding: 12px; border: 1px solid #d2d2d7; border-radius: 8px; margin-bottom: 10px;">
                             </div>
 
-                            <!-- Address Fields -->
                             <div style="margin-top: 15px; padding-top: 15px; text-align: left;">
                                 <label style="font-size: 12px; font-weight: 600; color: #666;">Street Address <span
                                         style="color:red">*</span></label>
@@ -182,9 +223,8 @@
                                     }
                                 }
                             }
-                        </script
+                        </script>
 
-                        <!-- Step 2: Verify & Confirm -->
                         <div class="step-section" style="text-align: left; margin-top: 30px;">
                             <h3 style="font-size: 16px; margin-bottom: 15px; color: #1d1d1f;">Step 2: Verification</h3>
 
@@ -218,143 +258,143 @@
     </main>
 
     <script src="script.js"></script>
-                        <script>
-                            // Init Page
-                            let advanceAmount = 499;
+    <script>
+        // Init Page
+        let advanceAmount = 499;
 
-                            window.addEventListener('DOMContentLoaded', () => {
-                                const cart = JSON.parse(localStorage.getItem('cart')) || [];
-                                if (cart.length === 0) {
-                                    alert('Your cart is empty!');
-                                    window.location.href = 'index.html';
-                                    return;
-                                }
+        window.addEventListener('DOMContentLoaded', () => {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            if (cart.length === 0) {
+                alert('Your cart is empty!');
+                window.location.href = 'index.html';
+                return;
+            }
 
-                                // Determine Advance Amount
-                                const hasPro = cart.some(item => item.name.toLowerCase().includes('pro'));
-                                advanceAmount = hasPro ? 999 : 499;
+            // Determine Advance Amount
+            const hasPro = cart.some(item => item.name.toLowerCase().includes('pro'));
+            advanceAmount = hasPro ? 999 : 499;
 
-                                // Update UI Texts
-                                document.querySelectorAll('.advance-amount-display').forEach(el => el.innerText = '₹' + advanceAmount);
+            // Update UI Texts
+            document.querySelectorAll('.advance-amount-display').forEach(el => el.innerText = '₹' + advanceAmount);
 
-                                const itemsContainer = document.getElementById('cart-items-summary');
-                                let total = 0;
+            const itemsContainer = document.getElementById('cart-items-summary');
+            let total = 0;
 
-                                cart.forEach(item => {
-                                    total += item.price * item.quantity;
-                                    const div = document.createElement('div');
-                                    div.style.display = 'flex';
-                                    div.style.justifyContent = 'space-between';
-                                    div.style.marginBottom = '15px';
-                                    div.style.fontSize = '15px';
-                                    div.innerHTML = `
+            cart.forEach(item => {
+                total += item.price * item.quantity;
+                const div = document.createElement('div');
+                div.style.display = 'flex';
+                div.style.justifyContent = 'space-between';
+                div.style.marginBottom = '15px';
+                div.style.fontSize = '15px';
+                div.innerHTML = `
                     <span style="display: flex; gap: 10px; align-items: center;">
                         <img src="${item.image}" style="width: 30px; height: 30px; object-fit: contain;"> 
                         ${item.name} <span style="color:#888">x${item.quantity}</span>
                     </span>
                     <span style="font-weight: 500;">₹${(item.price * item.quantity).toLocaleString('en-IN')}</span>
                 `;
-                                    itemsContainer.appendChild(div);
-                                });
+                itemsContainer.appendChild(div);
+            });
 
-                                document.getElementById('summary-subtotal').innerText = '₹' + total.toLocaleString('en-IN');
-                                document.getElementById('summary-total').innerText = '₹' + total.toLocaleString('en-IN');
-                                document.getElementById('due-amount').innerText = '₹' + (total - advanceAmount).toLocaleString('en-IN');
-                            });
+            document.getElementById('summary-subtotal').innerText = '₹' + total.toLocaleString('en-IN');
+            document.getElementById('summary-total').innerText = '₹' + total.toLocaleString('en-IN');
+            // document.getElementById('due-amount').innerText = '₹' + (total - advanceAmount).toLocaleString('en-IN');
+        });
 
-                            function selectMethod(el, method) {
-                                document.querySelectorAll('.method-card').forEach(c => c.classList.remove('selected'));
-                                el.classList.add('selected');
+        function selectMethod(el, method) {
+            document.querySelectorAll('.method-card').forEach(c => c.classList.remove('selected'));
+            el.classList.add('selected');
 
-                                const display = document.getElementById('payment-display');
-                                const codView = document.getElementById('cod-view');
-                                const upiView = document.getElementById('upi-view');
+            const display = document.getElementById('payment-display');
+            const codView = document.getElementById('cod-view');
+            const upiView = document.getElementById('upi-view');
 
-                                display.style.display = 'block';
-                                codView.style.display = 'none';
-                                upiView.style.display = 'none';
+            display.style.display = 'block';
+            codView.style.display = 'none';
+            upiView.style.display = 'none';
 
-                                if (method === 'cod') {
-                                    codView.style.display = 'block';
-                                } else {
-                                    upiView.style.display = 'block';
-                                    generateQR();
-                                }
-                            }
+            if (method === 'cod') {
+                codView.style.display = 'block';
+            } else {
+                upiView.style.display = 'block';
+                generateQR();
+            }
+        }
 
-                            function switchToOnline() {
-                                document.querySelectorAll('.method-card')[1].click();
-                            }
+        function switchToOnline() {
+            document.querySelectorAll('.method-card')[1].click();
+        }
 
-                            function generateQR() {
-                                // Using static custom QR provided by user
-                                document.getElementById('dynamic-qr').src = 'images/custom_qr_new.jpg?v=' + new Date().getTime();
-                            }
+        function generateQR() {
+            // Using static custom QR provided by user
+            document.getElementById('dynamic-qr').src = 'images/custom_qr_new.jpg?v=' + new Date().getTime();
+        }
 
-                            async function submitOrderWithProof() {
-                                const name = document.getElementById('customer-name').value;
-                                const phone = document.getElementById('customer-phone').value;
-                                const street = document.getElementById('addr-street').value;
-                                const city = document.getElementById('addr-city').value;
-                                const zip = document.getElementById('addr-zip').value;
-                                const state = document.getElementById('addr-state').value;
-                                const txnId = document.getElementById('transactionId').value;
-                                const fileInput = document.getElementById('paymentScreenshot');
+        async function submitOrderWithProof() {
+            const name = document.getElementById('customer-name').value;
+            const phone = document.getElementById('customer-phone').value;
+            const street = document.getElementById('addr-street').value;
+            const city = document.getElementById('addr-city').value;
+            const zip = document.getElementById('addr-zip').value;
+            const state = document.getElementById('addr-state').value;
+            const txnId = document.getElementById('transactionId').value;
+            const fileInput = document.getElementById('paymentScreenshot');
 
-                                if (!name || !phone || !street || !city || !zip || !state || !txnId) {
-                                    alert('Please fill in all details including Transaction ID.');
-                                    return;
-                                }
+            if (!name || !phone || !street || !city || !zip || !state || !txnId) {
+                alert('Please fill in all details including Transaction ID.');
+                return;
+            }
 
-                                if (!fileInput.files.length) {
-                                    alert('Please upload the payment screenshot.');
-                                    return;
-                                }
+            if (!fileInput.files.length) {
+                alert('Please upload the payment screenshot.');
+                return;
+            }
 
-                                const btn = event.target;
-                                const originalText = btn.innerText;
-                                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verifying...';
-                                btn.disabled = true;
+            const btn = event.target;
+            const originalText = btn.innerText;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verifying...';
+            btn.disabled = true;
 
-                                try {
-                                    // Convert Image to Base64
-                                    const file = fileInput.files[0];
-                                    const base64Image = await new Promise((resolve, reject) => {
-                                        const reader = new FileReader();
-                                        reader.onload = () => resolve(reader.result);
-                                        reader.onerror = error => reject(error);
-                                        reader.readAsDataURL(file);
-                                    });
+            try {
+                // Convert Image to Base64
+                const file = fileInput.files[0];
+                const base64Image = await new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = () => resolve(reader.result);
+                    reader.onerror = error => reject(error);
+                    reader.readAsDataURL(file);
+                });
 
-                                    const cart = JSON.parse(localStorage.getItem('cart'));
+                const cart = JSON.parse(localStorage.getItem('cart'));
 
-                                    const response = await fetch('http://localhost:3000/api/orders', {
-                                        method: 'POST',
-                                        headers: { 'Content-Type': 'application/json' },
-                                        body: JSON.stringify({
-                                            amount: advanceAmount,
-                                            cart: cart,
-                                            paymentType: 'ONLINE',
-                                            customerDetails: {
-                                                name,
-                                                phone,
-                                                address: { street, city, zip, state }
-                                            },
-                                            paymentScreenshot: base64Image,
-                                            transactionId: txnId
-                                        })
-                                    });
+                const response = await fetch('http://localhost:3000/api/orders', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        amount: advanceAmount,
+                        cart: cart,
+                        paymentType: 'ONLINE',
+                        customerDetails: {
+                            name,
+                            phone,
+                            address: { street, city, zip, state }
+                        },
+                        paymentScreenshot: base64Image,
+                        transactionId: txnId
+                    })
+                });
 
-                                    const data = await response.json();
+                const data = await response.json();
 
-                                    if (data.success) {
-                                        const main = document.querySelector('main');
-                                        main.innerHTML = `
+                if (data.success) {
+                    const main = document.querySelector('main');
+                    main.innerHTML = `
                         <div style="text-align: center; padding: 80px 20px; animation: fadeUp 0.5s;">
                             <i class="fas fa-check-circle" style="color: #4CAF50; font-size: 80px; margin-bottom: 30px;"></i>
                             <h1 style="margin-bottom: 15px; font-size: 36px;">Order Confirmed!</h1>
                             <p style="color: #666; font-size: 20px; margin-bottom: 40px;">Advance payment & proof received.</p>
-
+                            
                              <div style="background: white; max-width: 500px; margin: 0 auto; padding: 40px; border-radius: 24px; box-shadow: var(--shadow-md); text-align: left;">
                                 <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
                                     <span style="color:#666">Order ID</span>
@@ -378,29 +418,29 @@
                             </div>
                         </div>
                     `;
-                                        // Save to My Orders
-                                        const myOrders = JSON.parse(localStorage.getItem('myOrders')) || [];
-                                        myOrders.push({
-                                            id: data.orderId,
-                                            date: new Date().toISOString(),
-                                            total: data.details.total,
-                                            items: cart.map(i => i.image)
-                                        });
-                                        localStorage.setItem('myOrders', JSON.stringify(myOrders));
-                                        localStorage.removeItem('cart');
-                                    } else {
-                                        alert('Submission failed: ' + (data.error || 'Unknown error'));
-                                        btn.innerHTML = originalText;
-                                        btn.disabled = false;
-                                    }
-                                } catch (error) {
-                                    console.error(error);
-                                    alert('Error processing payment. Please try again.');
-                                    btn.innerHTML = originalText;
-                                    btn.disabled = false;
-                                }
-                            }
-                        </script>
+                    // Save to My Orders
+                    const myOrders = JSON.parse(localStorage.getItem('myOrders')) || [];
+                    myOrders.push({
+                        id: data.orderId,
+                        date: new Date().toISOString(),
+                        total: data.details.total,
+                        items: cart.map(i => i.image)
+                    });
+                    localStorage.setItem('myOrders', JSON.stringify(myOrders));
+                    localStorage.removeItem('cart');
+                } else {
+                    alert('Submission failed: ' + (data.error || 'Unknown error'));
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                }
+            } catch (error) {
+                console.error(error);
+                alert('Error processing payment. Please try again.');
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        }
+    </script>
 </body>
 
 </html>
