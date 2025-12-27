@@ -35,12 +35,7 @@ body {
 }
 
 /* Typography */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-heading);
     color: var(--heading-color);
     font-weight: 600;
@@ -71,7 +66,7 @@ header {
     display: flex;
     justify-content: center;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    /* Subtle definition */
+    transition: height 0.3s ease; /* Added for smooth mobile expansion */
 }
 
 nav {
@@ -87,7 +82,6 @@ nav {
 
 .logo {
     color: var(--text-color);
-    /* Apple logo is usually dark in light mode */
     font-size: 1.2rem;
     opacity: 0.9;
     text-decoration: none !important;
@@ -105,7 +99,6 @@ nav {
 
 nav a {
     color: #484848;
-    /* Subtle nav links */
     font-family: var(--font-body);
     font-size: 12px;
     opacity: 0.8;
@@ -134,23 +127,19 @@ nav a:hover {
     font-weight: 600;
 }
 
-/* Hero Section - Immersive */
-/* Hero Section - Immersive */
+/* Hero Section */
 .hero {
     height: 92vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    /* Push content to top, image fills bottom */
     text-align: center;
     background: #fbfbfd;
-    /* Light theme as requested */
     color: #1d1d1f;
     position: relative;
     overflow: hidden;
     padding-top: 120px;
-    /* Space from top */
 }
 
 .hero-content {
@@ -167,14 +156,14 @@ nav a:hover {
     font-weight: 600;
     letter-spacing: -0.005em;
     margin-bottom: 6px;
-    color: white;
+    color: #1d1d1f; /* Changed from white to dark for visibility on light bg */
 }
 
 .hero p {
     font-size: 26px;
     line-height: 1.1;
     font-weight: 400;
-    color: #e8e8ed;
+    color: #86868b; /* Changed for better contrast on light theme */
     margin-bottom: 24px;
 }
 
@@ -250,7 +239,7 @@ nav a:hover {
     box-shadow: var(--shadow-md);
 }
 
-/* Product Grid - Minimalist */
+/* Product Grid */
 .section-title {
     text-align: center;
     font-size: 48px;
@@ -261,7 +250,8 @@ nav a:hover {
 
 .product-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    /* Use 280px min to ensure it fits on smaller phones */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
     gap: 30px;
     max-width: 1100px;
     margin: 0 auto 100px;
@@ -277,13 +267,12 @@ nav a:hover {
     cursor: pointer;
     position: relative;
     overflow: hidden;
-    height: 580px;
+    height: 580px; /* Fixed height for desktop alignment */
     display: flex;
     flex-direction: column;
     align-items: center;
     box-shadow: var(--shadow-sm);
     border: 1px solid transparent;
-    /* Prepare for border transition if needed */
 }
 
 .product-card:hover {
@@ -360,7 +349,6 @@ nav a:hover {
         opacity: 0;
         transform: translateY(30px);
     }
-
     to {
         opacity: 1;
         transform: translateY(0);
@@ -372,7 +360,6 @@ nav a:hover {
         opacity: 0;
         transform: scale(0.95);
     }
-
     to {
         opacity: 1;
         transform: scale(1);
@@ -401,7 +388,6 @@ nav a:hover {
 .method-card.selected {
     border-color: var(--accent-color);
     background: #eff6ff;
-    /* Light blue tint */
 }
 
 /* Footer */
@@ -413,15 +399,97 @@ footer {
     border-top: 1px solid #d2d2d7;
 }
 
+/* =========================================
+   MOBILE RESPONSIVENESS (UPDATED)
+   ========================================= */
 @media (max-width: 768px) {
+    /* 1. Header & Nav */
+    header {
+        height: auto;
+        padding: 10px 0;
+        background: rgba(251, 251, 253, 0.95); /* Slightly less transparent for readability */
+    }
+
+    nav {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .nav-links {
+        gap: 20px;
+        justify-content: center;
+        width: 100%;
+        flex-wrap: wrap;
+    }
+
+    /* 2. Hero Section */
+    .hero {
+        height: auto;
+        min-height: 80vh;
+        padding-top: 140px; /* More space for the stacked nav */
+        padding-bottom: 40px;
+    }
+
     .hero h1 {
-        font-size: 40px;
+        font-size: 36px; /* Smaller font for mobile */
+        padding: 0 10px;
     }
 
     .hero p {
-        font-size: 20px;
+        font-size: 18px;
+        padding: 0 15px;
+    }
+    
+    .hero-links {
+        flex-direction: column; /* Stack buttons vertically on small screens */
+        align-items: center;
+        gap: 15px;
     }
 
+    .hero img {
+        position: relative; /* Change from absolute to relative so it flows naturally */
+        max-width: 100%;
+        max-height: 300px;
+        margin-top: 40px;
+    }
+    
+    /* Reset Hero Image Container for mobile flow */
+    .hero-image-container {
+        position: relative;
+        height: auto;
+        padding-bottom: 0;
+        margin-top: 20px;
+    }
+
+    /* 3. Product Grid */
+    .section-title {
+        font-size: 32px;
+        margin: 60px 0 40px;
+    }
+
+    .product-grid {
+        grid-template-columns: 1fr; /* Single column for mobile */
+        padding: 0 15px;
+        gap: 20px;
+    }
+
+    .product-card {
+        height: auto; /* Allow card to grow based on content */
+        min-height: auto;
+        padding: 40px 20px;
+    }
+
+    .product-image {
+        max-width: 200px; /* Smaller images */
+    }
+
+    .product-actions {
+        opacity: 1; /* Always show buttons on mobile (no hover needed) */
+        transform: translateY(0);
+        margin-top: 15px;
+    }
+
+    /* 4. Checkout / Payment */
     .checkout-container {
         grid-template-columns: 1fr !important;
     }
