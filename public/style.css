@@ -66,7 +66,7 @@ header {
     display: flex;
     justify-content: center;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    transition: height 0.3s ease; /* Added for smooth mobile expansion */
+    transition: height 0.3s ease;
 }
 
 nav {
@@ -156,14 +156,14 @@ nav a:hover {
     font-weight: 600;
     letter-spacing: -0.005em;
     margin-bottom: 6px;
-    color: #1d1d1f; /* Changed from white to dark for visibility on light bg */
+    color: #1d1d1f;
 }
 
 .hero p {
     font-size: 26px;
     line-height: 1.1;
     font-weight: 400;
-    color: #86868b; /* Changed for better contrast on light theme */
+    color: #86868b;
     margin-bottom: 24px;
 }
 
@@ -250,7 +250,6 @@ nav a:hover {
 
 .product-grid {
     display: grid;
-    /* Use 280px min to ensure it fits on smaller phones */
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
     gap: 30px;
     max-width: 1100px;
@@ -267,7 +266,7 @@ nav a:hover {
     cursor: pointer;
     position: relative;
     overflow: hidden;
-    height: 580px; /* Fixed height for desktop alignment */
+    height: 580px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -338,6 +337,18 @@ nav a:hover {
     font-weight: 500;
 }
 
+/* Secondary Button style for 'Add to Cart' */
+.btn-cart {
+    background: #f5f5f7;
+    color: #1d1d1f;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 980px;
+    font-size: 15px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
 .btn-buy:active {
     background: #0077ed;
     transform: scale(0.98);
@@ -345,25 +356,13 @@ nav a:hover {
 
 /* Animations */
 @keyframes fadeUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes scaleIn {
-    from {
-        opacity: 0;
-        transform: scale(0.95);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
 }
 
 /* Payment Section Styling */
@@ -399,32 +398,16 @@ footer {
     border-top: 1px solid #d2d2d7;
 }
 
-/* --- MOBILE RESPONSIVE FIXES (2 Columns) --- */
+/* --- MOBILE RESPONSIVE FIXES (2 Columns + Visible Buttons) --- */
 @media (max-width: 768px) {
     
     /* 1. Fix the Navigation Bar */
-    header {
-        height: auto;
-        padding: 10px 0;
-    }
-    nav {
-        flex-direction: column;
-        gap: 10px;
-    }
-    .nav-links {
-        gap: 15px;
-        justify-content: center;
-        width: 100%;
-        flex-wrap: wrap;
-    }
+    header { height: auto; padding: 10px 0; }
+    nav { flex-direction: column; gap: 10px; }
+    .nav-links { gap: 15px; justify-content: center; width: 100%; flex-wrap: wrap; }
 
     /* 2. Fix the Hero Section */
-    .hero {
-        height: auto;
-        min-height: 80vh;
-        padding-top: 130px;
-        padding-bottom: 40px;
-    }
+    .hero { height: auto; min-height: 80vh; padding-top: 130px; padding-bottom: 40px; }
     .hero h1 { font-size: 32px; padding: 0 10px; }
     .hero p { font-size: 18px; padding: 0 15px; }
     .hero img { margin-top: 20px; }
@@ -433,47 +416,45 @@ footer {
     .product-grid {
         display: grid;
         grid-template-columns: 1fr 1fr; /* This forces 2 columns */
-        gap: 10px; /* Smaller gap between cards */
-        padding: 0 10px; /* Smaller padding on sides of screen */
+        gap: 12px;
+        padding: 0 10px;
     }
 
-    /* 4. Shrink Product Card Content to Fit */
+    /* 4. Shrink Product Card */
     .product-card {
         height: auto;
-        min-height: 350px; /* Make card shorter */
-        padding: 20px 10px; /* Reduce padding inside the card */
+        min-height: 420px; /* Taller to fit 2 buttons */
+        padding: 15px 10px;
+        justify-content: space-between; /* Push content to edges */
     }
 
-    .product-title {
-        font-size: 18px; /* Smaller Title */
-        margin-bottom: 5px;
+    .product-title { font-size: 16px; margin-bottom: 5px; line-height: 1.2; }
+    .product-price { font-size: 14px; margin-bottom: 10px; }
+    .product-image { max-width: 100%; height: auto; margin-bottom: 10px; }
+
+    /* 5. FORCE BUTTONS TO SHOW (No Hover needed) */
+    .product-actions {
+        opacity: 1 !important;        /* Make visible immediately */
+        transform: translateY(0) !important;
+        margin-top: auto;
+        display: flex;
+        flex-direction: column;       /* Stack buttons */
+        gap: 8px;                     /* Space between buttons */
+        width: 100%;
     }
 
-    .product-price {
-        font-size: 15px; /* Smaller Price */
-        margin-bottom: 10px;
+    /* Style Buttons for Mobile */
+    .btn-buy, .btn-cart {
+        width: 100%;
+        padding: 10px 0;
+        font-size: 12px;
+        border-radius: 20px;
+        display: block;
+        text-align: center;
     }
 
-    .product-image {
-        max-width: 100%;
-        height: auto;
-        margin-bottom: 10px;
-    }
-
-    .btn-buy {
-        padding: 8px 16px; /* Smaller Button */
-        font-size: 13px;
-        width: 100%; /* Make button fill the width */
-    }
-
-    /* Hide the "New" badge if it gets in the way, or make it smaller */
-    .product-new-badge {
-        font-size: 10px;
-        margin-bottom: 5px;
-    }
+    /* Hide badge if small */
+    .product-new-badge { font-size: 10px; margin-bottom: 5px; }
     
-    /* Fix Checkout Layout */
-    .checkout-container {
-        grid-template-columns: 1fr !important;
-    }
+    .checkout-container { grid-template-columns: 1fr !important; }
 }
