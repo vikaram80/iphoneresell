@@ -399,97 +399,80 @@ footer {
     border-top: 1px solid #d2d2d7;
 }
 
-/* =========================================
-   MOBILE RESPONSIVENESS (UPDATED)
-   ========================================= */
+/* --- MOBILE RESPONSIVE FIXES (2 Columns) --- */
 @media (max-width: 768px) {
-    /* 1. Header & Nav */
+    
+    /* 1. Fix the Navigation Bar */
     header {
         height: auto;
         padding: 10px 0;
-        background: rgba(251, 251, 253, 0.95); /* Slightly less transparent for readability */
     }
-
     nav {
         flex-direction: column;
-        gap: 15px;
+        gap: 10px;
     }
-
     .nav-links {
-        gap: 20px;
+        gap: 15px;
         justify-content: center;
         width: 100%;
         flex-wrap: wrap;
     }
 
-    /* 2. Hero Section */
+    /* 2. Fix the Hero Section */
     .hero {
         height: auto;
         min-height: 80vh;
-        padding-top: 140px; /* More space for the stacked nav */
+        padding-top: 130px;
         padding-bottom: 40px;
     }
+    .hero h1 { font-size: 32px; padding: 0 10px; }
+    .hero p { font-size: 18px; padding: 0 15px; }
+    .hero img { margin-top: 20px; }
 
-    .hero h1 {
-        font-size: 36px; /* Smaller font for mobile */
-        padding: 0 10px;
-    }
-
-    .hero p {
-        font-size: 18px;
-        padding: 0 15px;
-    }
-    
-    .hero-links {
-        flex-direction: column; /* Stack buttons vertically on small screens */
-        align-items: center;
-        gap: 15px;
-    }
-
-    .hero img {
-        position: relative; /* Change from absolute to relative so it flows naturally */
-        max-width: 100%;
-        max-height: 300px;
-        margin-top: 40px;
-    }
-    
-    /* Reset Hero Image Container for mobile flow */
-    .hero-image-container {
-        position: relative;
-        height: auto;
-        padding-bottom: 0;
-        margin-top: 20px;
-    }
-
-    /* 3. Product Grid */
-    .section-title {
-        font-size: 32px;
-        margin: 60px 0 40px;
-    }
-
+    /* 3. PRODUCT GRID - 2 COLUMNS SIDE BY SIDE */
     .product-grid {
-        grid-template-columns: 1fr; /* Single column for mobile */
-        padding: 0 15px;
-        gap: 20px;
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* This forces 2 columns */
+        gap: 10px; /* Smaller gap between cards */
+        padding: 0 10px; /* Smaller padding on sides of screen */
     }
 
+    /* 4. Shrink Product Card Content to Fit */
     .product-card {
-        height: auto; /* Allow card to grow based on content */
-        min-height: auto;
-        padding: 40px 20px;
+        height: auto;
+        min-height: 350px; /* Make card shorter */
+        padding: 20px 10px; /* Reduce padding inside the card */
+    }
+
+    .product-title {
+        font-size: 18px; /* Smaller Title */
+        margin-bottom: 5px;
+    }
+
+    .product-price {
+        font-size: 15px; /* Smaller Price */
+        margin-bottom: 10px;
     }
 
     .product-image {
-        max-width: 200px; /* Smaller images */
+        max-width: 100%;
+        height: auto;
+        margin-bottom: 10px;
     }
 
-    .product-actions {
-        opacity: 1; /* Always show buttons on mobile (no hover needed) */
-        transform: translateY(0);
-        margin-top: 15px;
+    .btn-buy {
+        padding: 8px 16px; /* Smaller Button */
+        font-size: 13px;
+        width: 100%; /* Make button fill the width */
     }
 
-    /* 4. Checkout / Payment */
+    /* Hide the "New" badge if it gets in the way, or make it smaller */
+    .product-new-badge {
+        font-size: 10px;
+        margin-bottom: 5px;
+    }
+    
+    /* Fix Checkout Layout */
     .checkout-container {
         grid-template-columns: 1fr !important;
     }
