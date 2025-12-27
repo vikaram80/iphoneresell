@@ -136,7 +136,8 @@ function addToCartWithOptions(id, name, price, image) {
 
 async function fetchProducts() {
     try {
-        const response = await fetch('http://localhost:3000/api/products');
+        // FIX APPLIED: Changed absolute localhost URL to relative path
+        const response = await fetch('/api/products');
         if (!response.ok) throw new Error('Failed to fetch');
         const products = await response.json();
         renderProducts(products);
@@ -239,7 +240,8 @@ async function loadProductDetails() {
     if (!id) return;
 
     try {
-        const response = await fetch(`http://localhost:3000/api/products/${id}`);
+        // FIX APPLIED: Changed absolute localhost URL to relative path
+        const response = await fetch(`/api/products/${id}`);
         if (!response.ok) throw new Error('Failed to fetch');
         const product = await response.json();
 
@@ -292,16 +294,14 @@ async function loadProductDetails() {
                          ${product.originalPrice ? `<span style="text-decoration: line-through; color: #888; font-size: 20px; margin-right: 10px;">₹${(product.originalPrice * 0.4).toLocaleString('en-IN')}</span>` : ''}
                         ₹${currentPrice.toLocaleString('en-IN')}
                     </div>
-                    
+                     
                     <p class="description" style="font-size: 17px; line-height: 1.5; color: #515154; margin-bottom: 30px;">${product.description}</p>
 
-                    <!-- Variants Section -->
                     <div id="product-variants">
                         ${variantsHtml}
                     </div>
                     <div id="product-data" style="display:none;" data-base-price="${product.price}" data-product='${JSON.stringify(product).replace(/'/g, "&#39;")}'></div>
 
-                    <!-- Quality Verification Section -->
                     <div style="background: #fbfbfd; border: 1px solid #d2d2d7; border-radius: 16px; padding: 24px; margin-bottom: 30px;">
                         <h3 style="margin-bottom: 15px; font-size: 14px; text-transform: uppercase; color: #86868b; letter-spacing: 0.5px;">Quality Verification</h3>
                         <ul style="list-style: none; padding: 0;">
@@ -421,3 +421,4 @@ document.addEventListener('DOMContentLoaded', () => {
         setupPayment();
     }
 });
+
