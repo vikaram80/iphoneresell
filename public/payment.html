@@ -46,7 +46,7 @@
             }
 
             .payment-methods {
-                flex-direction: column; /* Stack Payment buttons */
+                flex-direction: column; /* Stack Payment buttons vertically */
             }
 
             h1.section-title {
@@ -210,7 +210,6 @@
                                             cityInput.value = details.District;
                                             stateInput.value = details.State;
                                         } else {
-                                            // Invalid PIN or no data
                                             cityInput.value = "";
                                             stateInput.value = "";
                                             alert("Invalid PIN Code");
@@ -270,7 +269,7 @@
                 return;
             }
 
-            // Determine Advance Amount
+            // Determine Advance Amount (If Pro model, ask for 999, else 499)
             const hasPro = cart.some(item => item.name.toLowerCase().includes('pro'));
             advanceAmount = hasPro ? 999 : 499;
 
@@ -299,7 +298,6 @@
 
             document.getElementById('summary-subtotal').innerText = '₹' + total.toLocaleString('en-IN');
             document.getElementById('summary-total').innerText = '₹' + total.toLocaleString('en-IN');
-            // document.getElementById('due-amount').innerText = '₹' + (total - advanceAmount).toLocaleString('en-IN');
         });
 
         function selectMethod(el, method) {
@@ -328,6 +326,7 @@
 
         function generateQR() {
             // Using static custom QR provided by user
+            // Ensure you have a file named 'custom_qr_new.jpg' in 'images' folder
             document.getElementById('dynamic-qr').src = 'images/custom_qr_new.jpg?v=' + new Date().getTime();
         }
 
@@ -418,7 +417,8 @@
                             </div>
                         </div>
                     `;
-                    // Save to My Orders
+                    
+                    // Save to My Orders (Client Side for instant display)
                     const myOrders = JSON.parse(localStorage.getItem('myOrders')) || [];
                     myOrders.push({
                         id: data.orderId,
@@ -428,6 +428,7 @@
                     });
                     localStorage.setItem('myOrders', JSON.stringify(myOrders));
                     localStorage.removeItem('cart');
+                    
                 } else {
                     alert('Submission failed: ' + (data.error || 'Unknown error'));
                     btn.innerHTML = originalText;
@@ -442,5 +443,4 @@
         }
     </script>
 </body>
-
 </html>
